@@ -1,0 +1,23 @@
+$background: white;
+$white: #fefefe;
+$shadow: #666;
+$red: red;
+$gold: gold;
+$purple: purple;
+$blue: blue;
+$green: green;
+
+@mixin box-shadow($colour: $shadow, $x: 0, $y: 0, $spread: 5px, $offset: 0) {
+    -webkit-box-shadow: $x $y $spread $offset $colour;
+    -moz-box-shadow: $x $y $spread $offset $colour;
+    -o-box-shadow: $x $y $spread $offset $colour;
+    box-shadow: $x $y $spread $offset $colour;
+}
+
+
+@mixin active-shadow($colour: $shadow, $x: 0, $y: 0, $spread: 15px, $offset: 0) {
+    -webkit-box-shadow: $x $y $spread $offset $colour;
+    -moz-box-shadow: $x $y $spread $offset $colour;
+    -o-box-shadow: $x $y $spread $offset $colour;
+    box-shadow: $x $y $spread $offset $colour;
+}

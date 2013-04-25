@@ -1,0 +1,85 @@
+@import "_mixins";
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: $background;
+    margin: 0;
+    padding: 0;
+    font-family: Verdana, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5em;
+}
+
+.container {
+    width: 100%;
+    overflow: auto;
+}
+
+#main {
+    background-color: $white;
+    overflow: auto;
+}
+
+.character {
+    @include box-shadow;
+    font-size: 16px;
+    display: block;
+    float: left;
+    width: 150px;
+    height: 200px;
+    margin: 10px;
+    padding: 1em;
+    text-align: center;
+
+    &:hover {
+        @include active-shadow;
+        border: 1px solid $white;
+    }
+}
+
+#red {
+    @include box-shadow($red);
+    background: $red;
+
+    &:hover {
+        @include active-shadow($red);
+    }
+}
+#gold {
+    @include box-shadow($gold);
+    background: $gold;
+
+    &:hover {
+        @include active-shadow($gold);
+    }
+}
+#purple {
+    @include box-shadow($purple);
+    background: $purple;
+    color: $white;
+
+    &:hover {
+        @include active-shadow($purple);
+    }
+}
+#blue {
+    @include box-shadow($blue);
+    background: $blue;
+    color: $white;
+
+    &:hover {
+        @include active-shadow($blue);
+    }
+}
+#green {
+    @include box-shadow($green);
+    background: $green;
+    color: $white;
+
+    &:hover {
+        @include active-shadow($green);
+    }
+}

@@ -1,0 +1,11 @@
+@import "_mixins";
+/* ----------------------------- */
+/* MEDIUM: iPad ver, smartphone horz, large phones vert */
+/* ----------------------------- */
+@media (min-width: 481px) { 
+    .container {
+        width: 980px;
+        margin: auto;
+        padding: 1em;
+    }
+}
