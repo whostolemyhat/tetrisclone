@@ -1,3 +1,3 @@
 $(document).ready(function() {
-    // $('body').append('TESTING');
+    $('body').append('TESTING');
 });
