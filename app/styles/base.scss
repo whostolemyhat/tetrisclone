@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+canvas {
+    border: 1px solid black;
+}
+
 body {
     background-color: $background;
     margin: 0;
