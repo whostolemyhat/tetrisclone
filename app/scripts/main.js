@@ -53,8 +53,8 @@
 
         S = S || {};
 
-        var x;
-        var y;
+        S.x = 2;
+        S.y = 2;
 
         S.rotate = function() {
             var rotatedShape = [
@@ -116,15 +116,7 @@
                 this.rotate();
             }
         };
-        S.clone = function() {};
-        S.draw = function() {
-            for(var y = 0; y < this.shape.length; y++) {
-                var row = this.shape[y];
-                for(var x = 0; x < row.length; x++) {
-                    drawBlock(x, y, row[x]);
-                }
-            }
-        };
+        // S.clone = function() {};
 
         S.moveDown = function() {
             this.y++;
@@ -154,12 +146,21 @@
 
         update: function() {},
         draw: function() {
-            // rect(this.x, this.y, this.width, this.height, this.colour);
+            
             // iterate through board
             for(var y = 0; y < this.board.length; y++) {
                 var row = this.board[y];
                 for(var x = 0; x < row.length; x++) {
                     drawBlock(x, y, row[x]);    
+                }
+            }
+
+            // draw the shape lol
+            for(var y = 0; y < fallingPiece.shape.length; y++) {
+                for(var x = 0; x < fallingPiece.shape[y].length; x++) {
+                    if(fallingPiece.shape[y][x] !== 0) {
+                        drawBlock(x + fallingPiece.x, y + fallingPiece.y, fallingPiece.shape[y][x]);
+                    }
                 }
             }
         }
@@ -213,7 +214,7 @@
 
         Board.init();
 
-        var FPS = 25;
+        var FPS = 15;
         play = setInterval(function() {
             update();
             draw();
@@ -225,12 +226,27 @@
         // console.log('drawing');
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         Board.draw();
-        fallingPiece.draw();
+        // fallingPiece.draw();
     };
 
     var update = function() {
-        // console.log('updating');
+        console.log(fallingPiece.y + fallingPiece.bottomEdge());
 
+        if((fallingPiece.y + fallingPiece.bottomEdge()) < Board.height - 1) {
+            fallingPiece.moveDown();
+        } else {
+            for(var y = 0; y < fallingPiece.shape.length; y++) {
+                for(var x = 0; x < fallingPiece.shape[y].length; x++) {
+                    if(fallingPiece.shape[y][x] !== 0) {
+                        Board.board[y + fallingPiece.y][x + fallingPiece.x] = fallingPiece.shape[y][x];
+                    }
+                }
+            }
+
+            fallingPiece = nextPiece;
+            nextPiece = new Shape();
+            nextPiece.init();
+        }
     };
 
     tessellate.end = function() {
