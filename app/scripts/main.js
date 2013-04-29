@@ -53,9 +53,10 @@
 
         S = S || {};
 
-        S.rotate = function() {
-            console.log('rotating');
+        var x;
+        var y;
 
+        S.rotate = function() {
             var rotatedShape = [
                 [0, 0, 0, 0],
                 [0, 0, 0, 0],
@@ -65,33 +66,68 @@
             
             var shapeLength = 4;
             // http://charlesleifer.com/blog/even-more-canvas-fun-tetris-in-javascript/
+            // dynamic rotation of shapes
+            // go through each array in shape array
             for(var y = 0; y < shapeLength; y++) {
                 for(var x = 0; x < shapeLength; x++) {
-                    rotatedShape[x][y] = S.shape[shapeLength - y - 1][x];
+                    // new array = len - val of pos of current (-1 for 0-index)
+                    rotatedShape[x][y] = this.shape[shapeLength - y - 1][x];
                 }
             }
-            S.shape = rotatedShape;
+            this.shape = rotatedShape;
         };
 
-        S.leftEdge = function() {};
-        S.rightEdge = function() {};
-        S.bottomEdge = function() {};
+        S.leftEdge = function() {
+            for(var y = 0; y < this.shape.length; y++) {
+                for(var x = 0; x < this.shape[y].length; x++) {
+                    // check vertical first! (L-shape: if row-first, will return first x it finds == wrong!)
+                    if(this.shape[x][y] !== 0) {
+                        return y;
+                    }
+                }
+            }
+        };
+        S.rightEdge = function() {
+            // start at top right
+            for(var x = 3; x >= 0; x--) {
+                for(var y = 0; y < 4; y++) {
+                    if(this.shape[y][x] !== 0) {
+                        return x;
+                    }
+                }
+            }
+        };
+        S.bottomEdge = function() {
+            // work back through array to find first non-0 entry
+            for(var y = 3; y >= 0; y--) {
+                for(var x = 0; x < this.shape[y].length; x++) {
+                    if(this.shape[y][x] !== 0) {
+                        // return row
+                        return y;
+                    }
+                }
+            }
+        };
         S.init = function() {
             var rotation = Math.floor(Math.random() * 4);
             var randShape = Math.floor(Math.random() * shapes.length);
-            S.shape = shapes[randShape];
+            this.shape = shapes[randShape];
             for(var i = 0; i < rotation; i++) {
-                S.rotate();
+                this.rotate();
             }
         };
         S.clone = function() {};
         S.draw = function() {
-            for(var y = 0; y < S.shape.length; y++) {
-                var row = S.shape[y];
+            for(var y = 0; y < this.shape.length; y++) {
+                var row = this.shape[y];
                 for(var x = 0; x < row.length; x++) {
                     drawBlock(x, y, row[x]);
                 }
             }
+        };
+
+        S.moveDown = function() {
+            this.y++;
         };
 
         return S;
@@ -161,20 +197,6 @@
     var canvas;
     var ctx;
 
-    // var board = {
-    //     width: 10,
-    //     height: 30,
-    //     draw: function() {
-    //         for(var x = 0; x < this.width; x++) {
-    //             for(var y = 0; y < this.height; y++) {
-    //                 rect((x * TILE_WIDTH) + (x * BORDER_WIDTH), (y * TILE_HEIGHT) + (y * BORDER_WIDTH), TILE_WIDTH, TILE_HEIGHT, '#2e2');
-    //             }
-    //         }
-    //     },
-    //     pieces: []
-    // };
-
-
     tessellate.init = function() {
         canvas = $('#canvas')[0];
         ctx = canvas.getContext('2d');
@@ -190,12 +212,6 @@
         nextPiece.init();
 
         Board.init();
-
-        console.log(Board.board);
-
-        // debug
-        // board.pieces = [];
-        // board.pieces.push(getNewPiece());
 
         var FPS = 25;
         play = setInterval(function() {
@@ -213,7 +229,7 @@
     };
 
     var update = function() {
-
+        // console.log('updating');
 
     };
 
