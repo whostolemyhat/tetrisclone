@@ -53,8 +53,8 @@
 
         S = S || {};
 
-        S.x = 2;
-        S.y = 2;
+        S.x = 4;
+        S.y = 0;
 
         S.rotate = function() {
             var rotatedShape = [
@@ -120,6 +120,9 @@
 
         S.moveDown = function() {
             this.y++;
+            if(this.bottomEdge() + this.y >= Board.height) {
+                this.y--;
+            }
         };
 
         return S;
@@ -223,16 +226,12 @@
     };
 
     var draw = function() {
-        // console.log('drawing');
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         Board.draw();
-        // fallingPiece.draw();
     };
 
     var update = function() {
-        console.log(fallingPiece.y + fallingPiece.bottomEdge());
-
-        if((fallingPiece.y + fallingPiece.bottomEdge()) < Board.height - 1) {
+        if(!collision() && ((fallingPiece.y + fallingPiece.bottomEdge()) < Board.height - 1)) {
             fallingPiece.moveDown();
         } else {
             for(var y = 0; y < fallingPiece.shape.length; y++) {
@@ -248,6 +247,19 @@
             nextPiece.init();
         }
     };
+
+    var collision = function() {
+        for(var y = 0; y < fallingPiece.shape.length; y++) {
+            for(var x = 0; x < fallingPiece.shape[y].length; x++) {
+                if(fallingPiece.shape[y][x] !== 0) {
+                    if(Board.board[y + fallingPiece.y][x + fallingPiece.x]) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
     tessellate.end = function() {
         window.clearTimeout(play);
