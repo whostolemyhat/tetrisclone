@@ -116,23 +116,66 @@
                 this.rotate();
             }
         };
-        // S.clone = function() {};
 
+        S.moveLeft = function() {
+            this.x--;
+            if(this.x < 0) {
+                this.x++;
+            }
+        };
+        S.moveRight = function() {
+            this.x++;
+            if((this.x + this.rightEdge()) >= Board.width) {
+                this.x--;
+            }
+        };
         S.moveDown = function() {
             this.y++;
-            if(this.bottomEdge() + this.y >= Board.height) {
+            if((this.bottomEdge() + this.y >= Board.height) || collision()) {
                 this.y--;
+
+                // move shape onto board
+                addPieceToBoard();
+                getNextPiece();       
             }
         };
 
+        S.update = function() {
+            this.moveDown();
+        };
+
         return S;
+    }
+
+    function addPieceToBoard() {
+        for(var y = 0; y < fallingPiece.shape.length; y++) {
+            for(var x = 0; x < fallingPiece.shape[y].length; x++) {
+                if(fallingPiece.shape[y][x] !== 0) {
+                    Board.board[y + fallingPiece.y][x + fallingPiece.x] = fallingPiece.shape[y][x];
+                }
+            }
+        }
+    }
+    function getNextPiece() {
+        fallingPiece = nextPiece;
+        nextPiece = new Shape();
+        nextPiece.init();
+        // run out of board
+        if(collision()) {
+            tessellate.gameOver();
+        }
+    }
+
+    tessellate.gameOver = function() {
+        window.clearTimeout(play);
+        $('.hero-unit').append('Game Over!');
     }
 
     var Board = {
         colour: '#ccc',
         x: 0,
         y: 0,
-        height: 20,
+        height: 25,
         width: 12,
 
         board: [],
@@ -192,10 +235,6 @@
     var CANVAS_WIDTH;
     var CANVAS_HEIGHT;
     var TILE_SIZE = 20;
-    // var TILE_HEIGHT = 15;
-    // var BORDER_WIDTH = 2;
-    // var MOVE_DOWN_FREQ = 100;
-    // var MOVE_SIDEWAYS_FREQ = 150;
 
     // $('<canvas id="canvas" width="' + CANVAS_WIDTH + '" height="' + CANVAS_HEIGHT + '"></canvas>').appendTo('.container');
     var canvas;
@@ -231,21 +270,7 @@
     };
 
     var update = function() {
-        if(!collision() && ((fallingPiece.y + fallingPiece.bottomEdge()) < Board.height - 1)) {
-            fallingPiece.moveDown();
-        } else {
-            for(var y = 0; y < fallingPiece.shape.length; y++) {
-                for(var x = 0; x < fallingPiece.shape[y].length; x++) {
-                    if(fallingPiece.shape[y][x] !== 0) {
-                        Board.board[y + fallingPiece.y][x + fallingPiece.x] = fallingPiece.shape[y][x];
-                    }
-                }
-            }
-
-            fallingPiece = nextPiece;
-            nextPiece = new Shape();
-            nextPiece.init();
-        }
+        fallingPiece.update();
     };
 
     var collision = function() {
@@ -260,12 +285,6 @@
         }
         return false;
     }
-
-    tessellate.end = function() {
-        window.clearTimeout(play);
-        console.log('stopped');
-    };
-
 
 
     // TODO: move to lib
@@ -282,9 +301,22 @@
     };
 
     tessellate.handleKeys = function(e) {
+        // 37 - left
+        // 38 - up
+        // 39 - right
+        // 40 - down
         switch(e.keyCode) {
-            case 38:
+            case 38: // up
                 fallingPiece.rotate();
+                break;
+            case 37: //left
+                fallingPiece.moveLeft();
+                break;
+            case 39: // right
+                fallingPiece.moveRight();
+                break;
+            case 40: // down
+                fallingPiece.moveDown();
                 break;
         }
     };
