@@ -11,6 +11,27 @@
 * and http://addyosmani.com/blog/essential-js-namespacing/
 */
 (function(tessellate, $, undefined) {
+    var lineTotal = 0;
+    var score = 0;
+    var time;
+    var TIME_STEP = 500;
+    var LEVEL_REDUCTION = 25;
+    var play;
+    var fallingPiece;
+    var nextPiece;
+    var CANVAS_WIDTH;
+    var CANVAS_HEIGHT;
+    var TILE_SIZE = 20;
+    var FPS = 20;
+    // $('<canvas id="canvas" width="' + CANVAS_WIDTH + '" height="' + CANVAS_HEIGHT + '"></canvas>').appendTo('.container');
+    var canvas;
+    var ctx;
+
+    function updateScore() {
+        score = lineTotal * 5;
+        $('.lines').text(lineTotal);
+        $('.score').text(score);
+    }
     // var == private
     var shapes = [
         [[0, 1, 0, 0],
@@ -19,34 +40,34 @@
          [0, 1, 0, 0]],
 
         [[0, 0, 0, 0],
-         [0, 1, 1, 0],
-         [0, 1, 1, 0],
+         [0, 2, 2, 0],
+         [0, 2, 2, 0],
          [0, 0, 0, 0]],
 
         [[0, 0, 0, 0],
-         [0, 1, 0, 0],
-         [1, 1, 1, 0],
+         [0, 3, 0, 0],
+         [3, 3, 3, 0],
          [0, 0, 0, 0]],
 
         [[0, 0, 0, 0],
-         [0, 0, 1, 0],
-         [0, 0, 1, 0],
-         [0, 1, 1, 0]],
+         [0, 0, 4, 0],
+         [0, 0, 4, 0],
+         [0, 4, 4, 0]],
 
         [[0, 0, 0, 0],
-         [0, 1, 0, 0],
-         [0, 1, 0, 0],
-         [0, 1, 1, 0]],
+         [0, 5, 0, 0],
+         [0, 5, 0, 0],
+         [0, 5, 5, 0]],
 
         [[0, 0, 0, 0],
-         [0, 0, 1, 0],
-         [0, 1, 1, 0],
-         [0, 1, 0, 0]],
+         [0, 0, 6, 0],
+         [0, 6, 6, 0],
+         [0, 6, 0, 0]],
 
         [[0, 0, 0, 0],
-         [0, 1, 0, 0],
-         [0, 1, 1, 0],
-         [0, 0, 1, 0]]
+         [0, 7, 0, 0],
+         [0, 7, 7, 0],
+         [0, 0, 7, 0]]
     ];
 
     function Shape(S) {
@@ -57,7 +78,8 @@
         S.y = 0;
 
         S.rotate = function() {
-            var rotatedShape = [
+            var rotatedShape = {};
+            rotatedShape.shape = [
                 [0, 0, 0, 0],
                 [0, 0, 0, 0],
                 [0, 0, 0, 0],
@@ -71,10 +93,21 @@
             for(var y = 0; y < shapeLength; y++) {
                 for(var x = 0; x < shapeLength; x++) {
                     // new array = len - val of pos of current (-1 for 0-index)
-                    rotatedShape[x][y] = this.shape[shapeLength - y - 1][x];
+                    rotatedShape.shape[x][y] = this.shape[shapeLength - y - 1][x];
                 }
             }
-            this.shape = rotatedShape;
+            rotatedShape.x = fallingPiece.x;
+            rotatedShape.y = fallingPiece.y;
+
+            if(!collision(rotatedShape)) { 
+                this.shape = rotatedShape.shape;
+            }
+            if(this.x + this.leftEdge() < 0) {
+                this.x = 0;
+            }
+            if(this.x + this.rightEdge() >= Board.width) {
+                this.x = Board.width - this.rightEdge() - 1;
+            }
         };
 
         S.leftEdge = function() {
@@ -119,23 +152,24 @@
 
         S.moveLeft = function() {
             this.x--;
-            if(this.x < 0) {
+            if((this.x + this.leftEdge()) < 0 || collision(this)) {
                 this.x++;
             }
         };
+
         S.moveRight = function() {
             this.x++;
-            if((this.x + this.rightEdge()) >= Board.width) {
+            if((this.x + this.rightEdge()) >= Board.width || collision(this)) {
                 this.x--;
             }
         };
         S.moveDown = function() {
             this.y++;
-            if((this.bottomEdge() + this.y >= Board.height) || collision()) {
+            if((this.bottomEdge() + this.y >= Board.height) || collision(S)) {
                 this.y--;
 
                 // move shape onto board
-                addPieceToBoard();
+                Board.update();
                 getNextPiece();       
             }
         };
@@ -144,24 +178,48 @@
             this.moveDown();
         };
 
+        // S.inBounds = function() {
+        //     return ((this.x + this.leftEdge()) >= 0) && ((this.x + this.rightEdge()) <= Board.width);
+        // }
+
         return S;
     }
 
-    function addPieceToBoard() {
-        for(var y = 0; y < fallingPiece.shape.length; y++) {
-            for(var x = 0; x < fallingPiece.shape[y].length; x++) {
-                if(fallingPiece.shape[y][x] !== 0) {
-                    Board.board[y + fallingPiece.y][x + fallingPiece.x] = fallingPiece.shape[y][x];
+    function checkLines() {
+        for(var y = Board.height - 1; y >= 0; y--) {
+            var i = 0;
+            for(var x = 0; x < Board.width; x++) {
+                if(Board.board[y][x] !== 0) {
+                    i++;
                 }
             }
+            // if line full
+            if(i === Board.width) {
+                removeLine(y);
+                return true;
+            }
         }
+        return false;
     }
+
+    function removeLine(row) {
+        // remove all pieces from row
+        // move pieces above down 1 row
+        for(var y = row - 1; y >= 0; y--) {
+            for(var x = 0; x < Board.width; x++) {
+                Board.board[y + 1][x] = Board.board[y][x];
+            }
+        }
+        // get faster with each line
+        TIME_STEP -= LEVEL_REDUCTION;
+    }
+
     function getNextPiece() {
         fallingPiece = nextPiece;
         nextPiece = new Shape();
         nextPiece.init();
         // run out of board
-        if(collision()) {
+        if(collision(fallingPiece)) {
             tessellate.gameOver();
         }
     }
@@ -172,7 +230,7 @@
     }
 
     var Board = {
-        colour: '#ccc',
+        colour: '#34495E',
         x: 0,
         y: 0,
         height: 25,
@@ -181,6 +239,7 @@
         board: [],
 
         init: function() {
+            this.board = [];
             for(var y = 0; y < this.height; y++) {
                 var row = [];
                 for(var x = 0; x < this.width; x++) {
@@ -190,9 +249,21 @@
             }
         },
 
-        update: function() {},
+        update: function() {
+            for(var y = 0; y < fallingPiece.shape.length; y++) {
+                for(var x = 0; x < fallingPiece.shape[y].length; x++) {
+                    if(fallingPiece.shape[y][x] !== 0) {
+                        Board.board[y + fallingPiece.y][x + fallingPiece.x] = fallingPiece.shape[y][x];
+                    }
+                }
+            }
+            while(checkLines()) {
+                lineTotal++;
+                updateScore();
+            }
+        },
         draw: function() {
-            
+            console.log(this.board);
             // iterate through board
             for(var y = 0; y < this.board.length; y++) {
                 var row = this.board[y];
@@ -219,6 +290,27 @@
             case 0:
                 colour = Board.colour;
                 break;
+            case 1:
+                colour = '#F1C40F';
+                break;
+            case 2:
+                colour = '#9B59B6';
+                break;
+            case 3:
+                colour = '#2ECC71';
+                break;
+            case 4:
+                colour = '#3498DB';
+                break;
+            case 5:
+                colour = '#E74C3C';
+                break;
+            case 6:
+                colour = '#E67E22';
+                break;
+            case 7:
+                colour = '#1ABC9C';
+                break;
             default:
                 colour = 'red';
                 break;
@@ -229,17 +321,6 @@
         rect(x, y, TILE_SIZE, TILE_SIZE, colour);
     }
 
-    var play;
-    var fallingPiece;
-    var nextPiece;
-    var CANVAS_WIDTH;
-    var CANVAS_HEIGHT;
-    var TILE_SIZE = 20;
-
-    // $('<canvas id="canvas" width="' + CANVAS_WIDTH + '" height="' + CANVAS_HEIGHT + '"></canvas>').appendTo('.container');
-    var canvas;
-    var ctx;
-
     tessellate.init = function() {
         canvas = $('#canvas')[0];
         ctx = canvas.getContext('2d');
@@ -248,15 +329,20 @@
         CANVAS_HEIGHT = canvas.height;
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
+        Board.init();
+
         fallingPiece = new Shape();
         nextPiece = new Shape();
 
         fallingPiece.init();
         nextPiece.init();
 
-        Board.init();
+        TIME_STEP = 700;
+        LEVEL_REDUCTION = 20;
+        lineTotal = 0;
+        score = 0;
 
-        var FPS = 15;
+        time = new Date().getTime();
         play = setInterval(function() {
             update();
             draw();
@@ -267,17 +353,33 @@
     var draw = function() {
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         Board.draw();
+        drawNextBlock();
     };
 
     var update = function() {
-        fallingPiece.update();
+        var delta = new Date().getTime() - time;
+        if(delta >= TIME_STEP) {
+            fallingPiece.update();
+            time = new Date().getTime();
+            delta = 0;
+        }
     };
 
-    var collision = function() {
-        for(var y = 0; y < fallingPiece.shape.length; y++) {
-            for(var x = 0; x < fallingPiece.shape[y].length; x++) {
-                if(fallingPiece.shape[y][x] !== 0) {
-                    if(Board.board[y + fallingPiece.y][x + fallingPiece.x]) {
+    function drawNextBlock() {
+        for(var y = 0; y < nextPiece.shape.length; y++) {
+            for(var x = 0; x < nextPiece.shape[y].length; x++) {
+                if(nextPiece.shape[y][x] !== 0) {
+                    drawBlock(x + Board.width + 2, y + 2, nextPiece.shape[y][x]);
+                }
+            }
+        }
+    }
+
+    var collision = function(piece) {
+        for(var y = 0; y < 4; y++) {
+            for(var x = 0; x < 4; x++) {
+                if(piece.shape[y][x] !== 0) {
+                    if(Board.board[y + piece.y][x + piece.x]) {
                         return true;
                     }
                 }
@@ -334,7 +436,7 @@ $(document).ready(function() {
             return false;
         });
         $('#stop').click(function() {
-            tessellate.end();
+            tessellate.gameOver();
             return false;
         });
 
