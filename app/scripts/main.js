@@ -226,7 +226,9 @@
 
     tessellate.gameOver = function() {
         window.clearTimeout(play);
-        $('.hero-unit').append('Game Over!');
+        $('.message').html('<h2>Game Over!</h2><p><strong>Lines cleared:</strong> ' + lineTotal + ' <strong>Score:</strong> ' + score)
+        .fadeIn();
+        // $('.hero-unit').append('Game Over!');
     }
 
     var Board = {
@@ -263,7 +265,6 @@
             }
         },
         draw: function() {
-            console.log(this.board);
             // iterate through board
             for(var y = 0; y < this.board.length; y++) {
                 var row = this.board[y];
@@ -309,7 +310,7 @@
                 colour = '#E67E22';
                 break;
             case 7:
-                colour = '#1ABC9C';
+                colour = '#C0392B';
                 break;
             default:
                 colour = 'red';

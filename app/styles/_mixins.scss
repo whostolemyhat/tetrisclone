@@ -1,11 +1,9 @@
-$background: white;
-$white: #fefefe;
-$shadow: #666;
-$red: red;
-$gold: gold;
-$purple: purple;
-$blue: blue;
-$green: green;
+$background: #f7f9fb;
+$heading: #34495E;
+$link: #3498DB;
+$hover: #2980B9;
+$light: #ECF0F1;
+$light-highlight: #BDC3C7;
 
 @mixin box-shadow($colour: $shadow, $x: 0, $y: 0, $spread: 5px, $offset: 0) {
     -webkit-box-shadow: $x $y $spread $offset $colour;

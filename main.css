@@ -1,0 +1,163 @@
+/* line 3, ../../app/styles/base.scss */
+* {
+  box-sizing: border-box;
+}
+
+/* line 7, ../../app/styles/base.scss */
+canvas {
+  background: #2C3E50;
+}
+
+/* line 12, ../../app/styles/base.scss */
+body {
+  background-color: white;
+  margin: 0;
+  padding: 0;
+  font-family: Verdana, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5em;
+}
+
+/* line 21, ../../app/styles/base.scss */
+.container {
+  width: 100%;
+  overflow: auto;
+}
+
+/* line 26, ../../app/styles/base.scss */
+#main {
+  background-color: #fefefe;
+  overflow: auto;
+}
+
+/* line 31, ../../app/styles/base.scss */
+.character {
+  -webkit-box-shadow: 0 0 5px 0 #666666;
+  -moz-box-shadow: 0 0 5px 0 #666666;
+  -o-box-shadow: 0 0 5px 0 #666666;
+  box-shadow: 0 0 5px 0 #666666;
+  font-size: 16px;
+  display: block;
+  float: left;
+  width: 150px;
+  height: 200px;
+  margin: 10px;
+  padding: 1em;
+  text-align: center;
+}
+/* line 42, ../../app/styles/base.scss */
+.character:hover {
+  -webkit-box-shadow: 0 0 15px 0 #666666;
+  -moz-box-shadow: 0 0 15px 0 #666666;
+  -o-box-shadow: 0 0 15px 0 #666666;
+  box-shadow: 0 0 15px 0 #666666;
+  border: 1px solid #fefefe;
+}
+
+/* line 48, ../../app/styles/base.scss */
+#red {
+  -webkit-box-shadow: 0 0 5px 0 red;
+  -moz-box-shadow: 0 0 5px 0 red;
+  -o-box-shadow: 0 0 5px 0 red;
+  box-shadow: 0 0 5px 0 red;
+  background: red;
+}
+/* line 52, ../../app/styles/base.scss */
+#red:hover {
+  -webkit-box-shadow: 0 0 15px 0 red;
+  -moz-box-shadow: 0 0 15px 0 red;
+  -o-box-shadow: 0 0 15px 0 red;
+  box-shadow: 0 0 15px 0 red;
+}
+
+/* line 56, ../../app/styles/base.scss */
+#gold {
+  -webkit-box-shadow: 0 0 5px 0 gold;
+  -moz-box-shadow: 0 0 5px 0 gold;
+  -o-box-shadow: 0 0 5px 0 gold;
+  box-shadow: 0 0 5px 0 gold;
+  background: gold;
+}
+/* line 60, ../../app/styles/base.scss */
+#gold:hover {
+  -webkit-box-shadow: 0 0 15px 0 gold;
+  -moz-box-shadow: 0 0 15px 0 gold;
+  -o-box-shadow: 0 0 15px 0 gold;
+  box-shadow: 0 0 15px 0 gold;
+}
+
+/* line 64, ../../app/styles/base.scss */
+#purple {
+  -webkit-box-shadow: 0 0 5px 0 purple;
+  -moz-box-shadow: 0 0 5px 0 purple;
+  -o-box-shadow: 0 0 5px 0 purple;
+  box-shadow: 0 0 5px 0 purple;
+  background: purple;
+  color: #fefefe;
+}
+/* line 69, ../../app/styles/base.scss */
+#purple:hover {
+  -webkit-box-shadow: 0 0 15px 0 purple;
+  -moz-box-shadow: 0 0 15px 0 purple;
+  -o-box-shadow: 0 0 15px 0 purple;
+  box-shadow: 0 0 15px 0 purple;
+}
+
+/* line 73, ../../app/styles/base.scss */
+#blue {
+  -webkit-box-shadow: 0 0 5px 0 blue;
+  -moz-box-shadow: 0 0 5px 0 blue;
+  -o-box-shadow: 0 0 5px 0 blue;
+  box-shadow: 0 0 5px 0 blue;
+  background: blue;
+  color: #fefefe;
+}
+/* line 78, ../../app/styles/base.scss */
+#blue:hover {
+  -webkit-box-shadow: 0 0 15px 0 blue;
+  -moz-box-shadow: 0 0 15px 0 blue;
+  -o-box-shadow: 0 0 15px 0 blue;
+  box-shadow: 0 0 15px 0 blue;
+}
+
+/* line 82, ../../app/styles/base.scss */
+#green {
+  -webkit-box-shadow: 0 0 5px 0 green;
+  -moz-box-shadow: 0 0 5px 0 green;
+  -o-box-shadow: 0 0 5px 0 green;
+  box-shadow: 0 0 5px 0 green;
+  background: green;
+  color: #fefefe;
+}
+/* line 87, ../../app/styles/base.scss */
+#green:hover {
+  -webkit-box-shadow: 0 0 15px 0 green;
+  -moz-box-shadow: 0 0 15px 0 green;
+  -o-box-shadow: 0 0 15px 0 green;
+  box-shadow: 0 0 15px 0 green;
+}
+
+/* ----------------------------- */
+/*  Phone only */
+/* ----------------------------- */
+/* ----------------------------- */
+/* MEDIUM: iPad ver, smartphone horz, large phones vert */
+/* ----------------------------- */
+@media (min-width: 481px) {
+  /* line 6, ../../app/styles/medium.scss */
+  .container {
+    width: 980px;
+    margin: auto;
+    padding: 1em;
+  }
+}
+/* ----------------------------- */
+/* LARGE: big phones, iPad horz, desktop */
+/* ----------------------------- */
+@media (min-width: 1025px) {
+  /* line 5, ../../app/styles/large.scss */
+  .container {
+    width: 960px;
+    margin: auto;
+  }
+}

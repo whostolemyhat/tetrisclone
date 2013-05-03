@@ -5,7 +5,6 @@
 }
 
 canvas {
-    // border: 1px solid black;
     background: #2C3E50;
 }
 
@@ -23,68 +22,63 @@ body {
     overflow: auto;
 }
 
-#main {
-    background-color: $white;
-    overflow: auto;
+h1, h2, h3 {
+    color: $heading;
 }
 
-.character {
-    @include box-shadow;
-    font-size: 16px;
-    display: block;
-    float: left;
-    width: 150px;
-    height: 200px;
-    margin: 10px;
-    padding: 1em;
+a {
+    color: $link;
+
+    &:hover {
+        color: $hover;
+    }
+}
+
+.instructions {
+    width: 30%;
+    float: right;
+    background: #34495E;
+    color: $light;
+
+    p {
+        margin: 1em;
+    }
+
+    a {
+        display: block;
+    }
+
+    h2 {
+        background: #2C3E50;
+        padding: .5em 1em;
+        margin: 0; 
+        color: $light;
+    }
+}
+
+.score {
+    span {
+        font-weight: bold;
+    }
+}
+
+.message {
+    width: 100%;
+    background: #34495E;
+    font-size: 20px;
+    font-weight: bold;
     text-align: center;
+    padding: 1em 0;
+    display: none;
+    position: absolute;
+    top: 40%;
+    left: 0;
+    color: $light;
+    border-top: 5px solid $light;
+    border-bottom: 5px solid $light;
 
-    &:hover {
-        @include active-shadow;
-        border: 1px solid $white;
-    }
-}
-
-#red {
-    @include box-shadow($red);
-    background: $red;
-
-    &:hover {
-        @include active-shadow($red);
-    }
-}
-#gold {
-    @include box-shadow($gold);
-    background: $gold;
-
-    &:hover {
-        @include active-shadow($gold);
-    }
-}
-#purple {
-    @include box-shadow($purple);
-    background: $purple;
-    color: $white;
-
-    &:hover {
-        @include active-shadow($purple);
-    }
-}
-#blue {
-    @include box-shadow($blue);
-    background: $blue;
-    color: $white;
-
-    &:hover {
-        @include active-shadow($blue);
-    }
-}
-#green {
-    @include box-shadow($green);
-    background: $green;
-    color: $white;
-
-    &:hover {
-        @include active-shadow($green);
+    h2 {
+        font-size: 40px;
+        color: $light;
     }
 }
