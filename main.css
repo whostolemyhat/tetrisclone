@@ -1,16 +1,16 @@
-/* line 3, ../../app/styles/base.scss */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/james\/Documents\/1gam\/tetrisclone\/app\/styles\/base\.scss}line{font-family:\000033}}
 * {
   box-sizing: border-box;
 }
 
-/* line 7, ../../app/styles/base.scss */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/james\/Documents\/1gam\/tetrisclone\/app\/styles\/base\.scss}line{font-family:\000037}}
 canvas {
   background: #2C3E50;
 }
 
-/* line 12, ../../app/styles/base.scss */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/james\/Documents\/1gam\/tetrisclone\/app\/styles\/base\.scss}line{font-family:\0000311}}
 body {
-  background-color: white;
+  background-color: #f7f9fb;
   margin: 0;
   padding: 0;
   font-family: Verdana, Helvetica, Arial, sans-serif;
@@ -18,123 +18,74 @@ body {
   line-height: 1.5em;
 }
 
-/* line 21, ../../app/styles/base.scss */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/james\/Documents\/1gam\/tetrisclone\/app\/styles\/base\.scss}line{font-family:\0000320}}
 .container {
   width: 100%;
   overflow: auto;
 }
 
-/* line 26, ../../app/styles/base.scss */
-#main {
-  background-color: #fefefe;
-  overflow: auto;
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/james\/Documents\/1gam\/tetrisclone\/app\/styles\/base\.scss}line{font-family:\0000325}}
+h1, h2, h3 {
+  color: #34495e;
 }
 
-/* line 31, ../../app/styles/base.scss */
-.character {
-  -webkit-box-shadow: 0 0 5px 0 #666666;
-  -moz-box-shadow: 0 0 5px 0 #666666;
-  -o-box-shadow: 0 0 5px 0 #666666;
-  box-shadow: 0 0 5px 0 #666666;
-  font-size: 16px;
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/james\/Documents\/1gam\/tetrisclone\/app\/styles\/base\.scss}line{font-family:\0000329}}
+a {
+  color: #3498db;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/james\/Documents\/1gam\/tetrisclone\/app\/styles\/base\.scss}line{font-family:\0000332}}
+a:hover {
+  color: #2980b9;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/james\/Documents\/1gam\/tetrisclone\/app\/styles\/base\.scss}line{font-family:\0000337}}
+.instructions {
+  width: 30%;
+  float: right;
+  background: #34495E;
+  color: #ecf0f1;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/james\/Documents\/1gam\/tetrisclone\/app\/styles\/base\.scss}line{font-family:\0000343}}
+.instructions p {
+  margin: 1em;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/james\/Documents\/1gam\/tetrisclone\/app\/styles\/base\.scss}line{font-family:\0000347}}
+.instructions a {
   display: block;
-  float: left;
-  width: 150px;
-  height: 200px;
-  margin: 10px;
-  padding: 1em;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/james\/Documents\/1gam\/tetrisclone\/app\/styles\/base\.scss}line{font-family:\0000351}}
+.instructions h2 {
+  background: #2C3E50;
+  padding: .5em 1em;
+  margin: 0;
+  color: #ecf0f1;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/james\/Documents\/1gam\/tetrisclone\/app\/styles\/base\.scss}line{font-family:\0000360}}
+.score span {
+  font-weight: bold;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/james\/Documents\/1gam\/tetrisclone\/app\/styles\/base\.scss}line{font-family:\0000365}}
+.message {
+  width: 100%;
+  background: #34495E;
+  font-size: 20px;
+  font-weight: bold;
   text-align: center;
+  padding: 1em 0;
+  display: none;
+  position: absolute;
+  top: 40%;
+  left: 0;
+  color: #ecf0f1;
+  border-top: 5px solid #ecf0f1;
+  border-bottom: 5px solid #ecf0f1;
 }
-/* line 42, ../../app/styles/base.scss */
-.character:hover {
-  -webkit-box-shadow: 0 0 15px 0 #666666;
-  -moz-box-shadow: 0 0 15px 0 #666666;
-  -o-box-shadow: 0 0 15px 0 #666666;
-  box-shadow: 0 0 15px 0 #666666;
-  border: 1px solid #fefefe;
-}
-
-/* line 48, ../../app/styles/base.scss */
-#red {
-  -webkit-box-shadow: 0 0 5px 0 red;
-  -moz-box-shadow: 0 0 5px 0 red;
-  -o-box-shadow: 0 0 5px 0 red;
-  box-shadow: 0 0 5px 0 red;
-  background: red;
-}
-/* line 52, ../../app/styles/base.scss */
-#red:hover {
-  -webkit-box-shadow: 0 0 15px 0 red;
-  -moz-box-shadow: 0 0 15px 0 red;
-  -o-box-shadow: 0 0 15px 0 red;
-  box-shadow: 0 0 15px 0 red;
-}
-
-/* line 56, ../../app/styles/base.scss */
-#gold {
-  -webkit-box-shadow: 0 0 5px 0 gold;
-  -moz-box-shadow: 0 0 5px 0 gold;
-  -o-box-shadow: 0 0 5px 0 gold;
-  box-shadow: 0 0 5px 0 gold;
-  background: gold;
-}
-/* line 60, ../../app/styles/base.scss */
-#gold:hover {
-  -webkit-box-shadow: 0 0 15px 0 gold;
-  -moz-box-shadow: 0 0 15px 0 gold;
-  -o-box-shadow: 0 0 15px 0 gold;
-  box-shadow: 0 0 15px 0 gold;
-}
-
-/* line 64, ../../app/styles/base.scss */
-#purple {
-  -webkit-box-shadow: 0 0 5px 0 purple;
-  -moz-box-shadow: 0 0 5px 0 purple;
-  -o-box-shadow: 0 0 5px 0 purple;
-  box-shadow: 0 0 5px 0 purple;
-  background: purple;
-  color: #fefefe;
-}
-/* line 69, ../../app/styles/base.scss */
-#purple:hover {
-  -webkit-box-shadow: 0 0 15px 0 purple;
-  -moz-box-shadow: 0 0 15px 0 purple;
-  -o-box-shadow: 0 0 15px 0 purple;
-  box-shadow: 0 0 15px 0 purple;
-}
-
-/* line 73, ../../app/styles/base.scss */
-#blue {
-  -webkit-box-shadow: 0 0 5px 0 blue;
-  -moz-box-shadow: 0 0 5px 0 blue;
-  -o-box-shadow: 0 0 5px 0 blue;
-  box-shadow: 0 0 5px 0 blue;
-  background: blue;
-  color: #fefefe;
-}
-/* line 78, ../../app/styles/base.scss */
-#blue:hover {
-  -webkit-box-shadow: 0 0 15px 0 blue;
-  -moz-box-shadow: 0 0 15px 0 blue;
-  -o-box-shadow: 0 0 15px 0 blue;
-  box-shadow: 0 0 15px 0 blue;
-}
-
-/* line 82, ../../app/styles/base.scss */
-#green {
-  -webkit-box-shadow: 0 0 5px 0 green;
-  -moz-box-shadow: 0 0 5px 0 green;
-  -o-box-shadow: 0 0 5px 0 green;
-  box-shadow: 0 0 5px 0 green;
-  background: green;
-  color: #fefefe;
-}
-/* line 87, ../../app/styles/base.scss */
-#green:hover {
-  -webkit-box-shadow: 0 0 15px 0 green;
-  -moz-box-shadow: 0 0 15px 0 green;
-  -o-box-shadow: 0 0 15px 0 green;
-  box-shadow: 0 0 15px 0 green;
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/james\/Documents\/1gam\/tetrisclone\/app\/styles\/base\.scss}line{font-family:\0000380}}
+.message h2 {
+  font-size: 40px;
+  color: #ecf0f1;
 }
 
 /* ----------------------------- */
@@ -144,7 +95,7 @@ body {
 /* MEDIUM: iPad ver, smartphone horz, large phones vert */
 /* ----------------------------- */
 @media (min-width: 481px) {
-  /* line 6, ../../app/styles/medium.scss */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/james\/Documents\/1gam\/tetrisclone\/app\/styles\/medium\.scss}line{font-family:\000036}}
   .container {
     width: 980px;
     margin: auto;
@@ -155,7 +106,7 @@ body {
 /* LARGE: big phones, iPad horz, desktop */
 /* ----------------------------- */
 @media (min-width: 1025px) {
-  /* line 5, ../../app/styles/large.scss */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/james\/Documents\/1gam\/tetrisclone\/app\/styles\/large\.scss}line{font-family:\000035}}
   .container {
     width: 960px;
     margin: auto;

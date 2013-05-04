@@ -396,10 +396,6 @@
         ctx.beginPath();
         ctx.fillRect(x, y, width, height);
         ctx.fill();
-        // border
-        // ctx.lineWidth = 1;
-        // ctx.strokeStyle = '#2e2';
-        // ctx.stroke();
         ctx.closePath();
     };
 
@@ -432,14 +428,14 @@ $(document).ready(function() {
 
         tessellate.init();
 
-        $('#start').click(function() {
-            tessellate.init();
-            return false;
-        });
-        $('#stop').click(function() {
-            tessellate.gameOver();
-            return false;
-        });
+        // $('#start').click(function() {
+        //     tessellate.init();
+        //     return false;
+        // });
+        // $('#stop').click(function() {
+        //     tessellate.gameOver();
+        //     return false;
+        // });
 
         $(document).keydown(function(e) {
             tessellate.handleKeys(e);
