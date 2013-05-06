@@ -350,15 +350,33 @@
         }, 1000 / FPS);
 
     };
+    var psAngle = 0;
+    var ps = new ParticleSystem({
+        particlesPerSecond: 20,
+        particleLife: 15.0,
+        colors: new Gradient([ new Colour(255, 0, 0, 1), new Colour(255, 0, 255, 1), new Colour(0, 0, 255, 0.5), new Colour(0, 0, 127, 0)]),
+    });
 
     var draw = function() {
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         Board.draw();
         drawNextBlock();
+
+        var delta = new Date().getTime() - time;
+        ps.draw(ctx, delta);
     };
 
     var update = function() {
         var delta = new Date().getTime() - time;
+
+        psAngle += delta;
+        ps.params.angle += 0.5 * Math.PI * 1.0 / 60 + delta;
+        ps.params.pos = new Point(Math.cos(psAngle) * (CANVAS_WIDTH / 2) + CANVAS_WIDTH / 2, CANVAS_HEIGHT / 10);
+        ps.params.angle += 0.5 * Math.PI * 1.0 / 60 + delta;
+        ps.step(delta);
+        
+        console.log(ps.particles.length);
+
         if(delta >= TIME_STEP) {
             fallingPiece.update();
             time = new Date().getTime();
@@ -428,14 +446,14 @@ $(document).ready(function() {
 
         tessellate.init();
 
-        // $('#start').click(function() {
-        //     tessellate.init();
-        //     return false;
-        // });
-        // $('#stop').click(function() {
-        //     tessellate.gameOver();
-        //     return false;
-        // });
+        $('#start').click(function() {
+            tessellate.init();
+            return false;
+        });
+        $('#stop').click(function() {
+            tessellate.gameOver();
+            return false;
+        });
 
         $(document).keydown(function(e) {
             tessellate.handleKeys(e);

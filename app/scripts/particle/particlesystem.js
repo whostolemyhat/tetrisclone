@@ -30,6 +30,24 @@ ParticleSystem.prototype.step = function(frameTime) {
     for(var i = 0; i < newParticlesThisFrame; i++) {
         this.spawnParticle((1.0 + i) / newParticlesThisFrame * frameTime);
     }
+
+    // remove dead particles
+    for(var i = 0; i < particles.length; i++) {
+        var p = this.particles[i];
+        p.step(frameTime);
+        if(p.isDead()) {
+            this.particles.splice(i, 1);
+            i--;
+        }
+    }
+};
+
+ParticleSystem.prototype.draw = function(ctx, frameTime) {
+    for (var i = 0; i < this.particles.length; i++) {
+        this.particles[i].draw(ctx, frameTime);
+    }
+
+    ctx.globalAlpha = 1.0;
 };
 
 ParticleSystem.prototype.spawnParticle = function(offset) {
@@ -38,7 +56,7 @@ ParticleSystem.prototype.spawnParticle = function(offset) {
     var speed = randRange(this.params.minVelocity, this.params.maxVelocity);
     var life = randVariation(this.params.particleLife, this.params.particleLife * this.params.lifeVariation);
 
-    var velocity = new Point().fromPolar(Angle, speed);
+    var velocity = new Point().fromPolar(angle, speed);
 
     // create particles from offset so they don't all appear from same point
     var pos = this.params.pos.clone().add(velocity.times(offset));
@@ -46,3 +64,10 @@ ParticleSystem.prototype.spawnParticle = function(offset) {
     this.particles.push(new Particle(this.params, pos, velocity, life));
 };
 
+function randVariation(center, variation) {
+    return center + variation * randRange(-0.5, 0.5);
+}
+
+function randRange(min, max) {
+    return Math.random() * (max - min) + min;
+}

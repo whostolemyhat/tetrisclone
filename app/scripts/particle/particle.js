@@ -12,13 +12,13 @@ Particle.prototype.step = function(frameTime) {
     this.velocity.add(this.params.gravity.times(frameTime));
     this.pos.add(this.velocity.time(frameTime));
 
-    if(this.params.collider) {
-        var intersect = this.params.collider.getIntersection(new Line(lastPos, this.pos));
-        if(intersect != null) {
-            this.pos = lastPos;
-            this.velocity = intersect.reflect(this.velocity).times(this.params.bounceDamper);
-        }
-    }
+    // if(this.params.collider) {
+    //     var intersect = this.params.collider.getIntersection(new Line(lastPos, this.pos));
+    //     if(intersect != null) {
+    //         this.pos = lastPos;
+    //         this.velocity = intersect.reflect(this.velocity).times(this.params.bounceDamper);
+    //     }
+    // }
     this.life -= frameTime;
 };
 

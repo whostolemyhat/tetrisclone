@@ -9,6 +9,6 @@ Gradient.prototype.getColour = function(percent, other) {
 
     return this.colours[colour1].interpolate(
         (colourF - colour1) / (colour2 - colour1),
-        this.colours[colour2];
+        this.colours[colour2]
         );
 };

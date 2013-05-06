@@ -11,9 +11,9 @@ Colour.prototype.toCanvasColour = function() {
 
 Colour.prototype.interpolate = function(x, other) {
     return new Colour(
-        this.r + (other.r - this.r) * x;
-        this.g + (other.g - this.g) * x;
-        this.b + (other.b - this.b) * x;
-        this.a + (other.a - this.a) * x;
+        this.r + (other.r - this.r) * x,
+        this.g + (other.g - this.g) * x,
+        this.b + (other.b - this.b) * x,
+        this.a + (other.a - this.a) * x
     )
 };
