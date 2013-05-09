@@ -23,6 +23,9 @@ function ParticleSystem(params) {
     }
 
     this.particles = [];
+    // for(var i = 0; i < 240; i += 4) {
+    //     this.particles.push(new Particle(0, new Point(i, 100), 0, 100));
+    // }
 }
 
 ParticleSystem.prototype.step = function(frameTime) {
@@ -32,7 +35,7 @@ ParticleSystem.prototype.step = function(frameTime) {
     }
 
     // remove dead particles
-    for(var i = 0; i < particles.length; i++) {
+    for(var i = 0; i < this.particles.length; i++) {
         var p = this.particles[i];
         p.step(frameTime);
         if(p.isDead()) {
@@ -40,6 +43,7 @@ ParticleSystem.prototype.step = function(frameTime) {
             i--;
         }
     }
+
 };
 
 ParticleSystem.prototype.draw = function(ctx, frameTime) {

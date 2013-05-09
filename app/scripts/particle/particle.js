@@ -7,10 +7,11 @@ function Particle(params, pos, velocity, life) {
 }
 
 Particle.prototype.step = function(frameTime) {
+    // console.log('particle step');
     var lastPos = this.pos.clone();
 
-    this.velocity.add(this.params.gravity.times(frameTime));
-    this.pos.add(this.velocity.time(frameTime));
+    // this.velocity.add(this.params.gravity.times(frameTime));
+    // this.pos.add(this.velocity.times(frameTime));
 
     // if(this.params.collider) {
     //     var intersect = this.params.collider.getIntersection(new Line(lastPos, this.pos));
@@ -23,6 +24,7 @@ Particle.prototype.step = function(frameTime) {
 };
 
 Particle.prototype.draw = function(ctx, frameTime) {
+    // console.log('drawing');
     if(this.isDead()) {
         return;
     }
@@ -32,7 +34,7 @@ Particle.prototype.draw = function(ctx, frameTime) {
 
     ctx.globalAlpha = colour.a;
     ctx.fillStyle = colour.toCanvasColour();
-    ctx.fillRect(this.pos.x - 1, this.pos.y - 1, 3, 3);
+    ctx.fillRect(this.pos.x, this.pos.y, 3, 3);
 };
 
 Particle.prototype.isDead = function() {
